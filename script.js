@@ -66,13 +66,13 @@ let activeSlideNum = 1;
 let slideshowTimer = null;
 
 /**
- * Función para precargar imágenes en segundo plano para transiciones fluidas
+ * Precargar únicamente la siguiente imagen que se mostrará (Carga Progresiva/Lazy)
  */
-function preloadPhotos() {
-    photos.forEach(photoName => {
+function preloadNextPhoto(nextIndex) {
+    if (photos[nextIndex]) {
         const img = new Image();
-        img.src = encodeURI(photoName);
-    });
+        img.src = encodeURI(photos[nextIndex]);
+    }
 }
 
 /**
@@ -112,6 +112,10 @@ function updateBackgroundSlide() {
     if (photoCounter) {
         photoCounter.textContent = `Foto ${currentPhotoIndex + 1} de ${photos.length}`;
     }
+
+    // Precargar de forma inteligente solo la Siguiente foto en segundo plano
+    const nextPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+    preloadNextPhoto(nextPhotoIndex);
 }
 
 /**
@@ -181,6 +185,5 @@ document.addEventListener("keydown", (e) => {
 
 // Inicialización de la aplicación
 document.addEventListener("DOMContentLoaded", () => {
-    preloadPhotos();
     startSlideshow();
 });
