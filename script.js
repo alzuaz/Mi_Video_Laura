@@ -60,6 +60,7 @@ const screenVideo = document.getElementById("screen-video");
 const btnToVideo = document.getElementById("btn-to-video");
 const btnToCover = document.getElementById("btn-to-cover");
 const mainVideo = document.getElementById("main-video");
+const mainYoutube = document.getElementById("main-youtube");
 
 let currentPhotoIndex = -1;
 let activeSlideNum = 1;
@@ -97,15 +98,23 @@ function updateBackgroundSlide() {
 
     if (activeSlideNum === 1) {
         // Cargar en el slide 2 y activarlo
-        slide2.style.backgroundImage = photoUrl;
-        slide2.classList.add("active-slide");
-        slide1.classList.remove("active-slide");
+        if (slide2) {
+            slide2.style.backgroundImage = photoUrl;
+            slide2.classList.add("active-slide");
+        }
+        if (slide1) {
+            slide1.classList.remove("active-slide");
+        }
         activeSlideNum = 2;
     } else {
         // Cargar en el slide 1 y activarlo
-        slide1.style.backgroundImage = photoUrl;
-        slide1.classList.add("active-slide");
-        slide2.classList.remove("active-slide");
+        if (slide1) {
+            slide1.style.backgroundImage = photoUrl;
+            slide1.classList.add("active-slide");
+        }
+        if (slide2) {
+            slide2.classList.remove("active-slide");
+        }
         activeSlideNum = 1;
     }
 
@@ -122,11 +131,10 @@ function updateBackgroundSlide() {
  * Iniciar el pase de diapositivas aleatorio
  */
 function startSlideshow() {
-    // Primer cambio inmediato
     updateBackgroundSlide();
-    
-    // Intervalo continuo cada 2.5 segundos
-    slideshowTimer = setInterval(updateBackgroundSlide, SLIDESHOW_INTERVAL);
+    if (!slideshowTimer) {
+        slideshowTimer = setInterval(updateBackgroundSlide, SLIDESHOW_INTERVAL);
+    }
 }
 
 /**
@@ -143,43 +151,44 @@ function stopSlideshow() {
 // EVENTOS Y NAVEGACIÓN ENTRE PANTALLAS
 // ==========================================================================
 
-const mainVideo = document.getElementById("main-video");
-const mainYoutube = document.getElementById("main-youtube");
-
 // Cambiar a Pantalla 2 (Vídeo)
-btnToVideo.addEventListener("click", () => {
-    screenCover.classList.remove("active");
-    screenVideo.classList.add("active");
-    stopSlideshow();
+if (btnToVideo) {
+    btnToVideo.addEventListener("click", () => {
+        if (screenCover) screenCover.classList.remove("active");
+        if (screenVideo) screenVideo.classList.add("active");
+        stopSlideshow();
 
-    if (mainVideo) {
-        mainVideo.currentTime = 0;
-        mainVideo.focus();
-    }
-});
+        if (mainVideo) {
+            mainVideo.currentTime = 0;
+            mainVideo.focus();
+        }
+    });
+}
 
 // Volver a Pantalla 1 (Portada)
-btnToCover.addEventListener("click", () => {
-    // Pausar el vídeo nativo si existe
-    if (mainVideo && !mainVideo.paused) {
-        mainVideo.pause();
-    }
+if (btnToCover) {
+    btnToCover.addEventListener("click", () => {
+        // Pausar el vídeo nativo si existe
+        if (mainVideo && !mainVideo.paused) {
+            mainVideo.pause();
+        }
 
-    // Pausar el vídeo de YouTube si se está usando iframe
-    if (mainYoutube) {
-        const currentSrc = mainYoutube.src;
-        mainYoutube.src = currentSrc; // Recargar el src detiene la reproducción y el audio de YouTube al volver
-    }
+        // Pausar el vídeo de YouTube si se está usando iframe
+        if (mainYoutube && mainYoutube.src) {
+            const currentSrc = mainYoutube.src;
+            mainYoutube.src = currentSrc; // Recargar el src detiene la reproducción y el audio de YouTube al volver
+        }
 
-    screenVideo.classList.remove("active");
-    screenCover.classList.add("active");
-    startSlideshow();
-});
+        if (screenVideo) screenVideo.classList.remove("active");
+        if (screenCover) screenCover.classList.add("active");
+        startSlideshow();
+    });
+}
 
 // Atajos de teclado útiles
 document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && screenVideo.classList.contains("active")) {
-        btnToCover.click();
+    if (e.key === "Escape" && screenVideo && screenVideo.classList.contains("active")) {
+        if (btnToCover) btnToCover.click();
     }
 });
 
