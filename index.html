@@ -79,11 +79,19 @@
 
         <main class="video-container-wrapper">
             <div class="video-card">
-                <video id="main-video" controls preload="metadata" poster="nosotros.jpg">
-                    <source src="mi_video.MOV" type="video/mp4">
-                    <source src="mi_video.MOV" type="video/quicktime">
-                    Tu navegador no soporta la reproducción directa de este vídeo en formato MOV.
-                </video>
+                <!-- ========================================================================= -->
+                <!-- INSTRUCCIONES YOUTUBE:                                                    -->
+                <!-- Reemplaza 'PEGA_AQUI_TU_ID_DE_YOUTUBE' por el ID de tu vídeo en YouTube.    -->
+                <!-- Ejemplo: Si tu enlace de YouTube es https://youtu.be/abc123XYZ             -->
+                <!-- el ID es la parte final: abc123XYZ                                        -->
+                <!-- ========================================================================= -->
+                <iframe id="main-youtube"
+                        src="https://www.youtube-nocookie.com/embed/GrIEkVmuuYU?enablejsapi=1&rel=0" 
+                        title="Mi Vídeo Especial"
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                </iframe>
             </div>
         </main>
     </section>

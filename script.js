@@ -139,13 +139,15 @@ function stopSlideshow() {
 // EVENTOS Y NAVEGACIÓN ENTRE PANTALLAS
 // ==========================================================================
 
+const mainVideo = document.getElementById("main-video");
+const mainYoutube = document.getElementById("main-youtube");
+
 // Cambiar a Pantalla 2 (Vídeo)
 btnToVideo.addEventListener("click", () => {
     screenCover.classList.remove("active");
     screenVideo.classList.add("active");
     stopSlideshow();
 
-    // Iniciar vídeo opcionalmente o enfocarlo
     if (mainVideo) {
         mainVideo.currentTime = 0;
         mainVideo.focus();
@@ -154,9 +156,15 @@ btnToVideo.addEventListener("click", () => {
 
 // Volver a Pantalla 1 (Portada)
 btnToCover.addEventListener("click", () => {
-    // Pausar el vídeo si se estaba reproduciendo
+    // Pausar el vídeo nativo si existe
     if (mainVideo && !mainVideo.paused) {
         mainVideo.pause();
+    }
+
+    // Pausar el vídeo de YouTube si se está usando iframe
+    if (mainYoutube) {
+        const currentSrc = mainYoutube.src;
+        mainYoutube.src = currentSrc; // Recargar el src detiene la reproducción y el audio de YouTube al volver
     }
 
     screenVideo.classList.remove("active");
