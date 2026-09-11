@@ -1,0 +1,433 @@
+/* ==========================================================================
+   RESET & PALETA DE ESTILOS BASE
+   ========================================================================== */
+:root {
+    --font-heading: 'Cinzel', serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    
+    --color-bg-dark: #08080d;
+    --color-accent-pink: #ff5277;
+    --color-accent-orange: #ff7e5f;
+    --color-gold: #f7c978;
+    --color-text-bright: #ffffff;
+    --color-text-muted: rgba(255, 255, 255, 0.78);
+    
+    --glass-bg: rgba(14, 16, 26, 0.45);
+    --glass-border: rgba(255, 255, 255, 0.18);
+    --glass-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--color-bg-dark);
+    font-family: var(--font-body);
+    color: var(--color-text-bright);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ==========================================================================
+   ESTRUCTURA DE PANTALLAS (PANTALLA 1 Y PANTALLA 2)
+   ========================================================================== */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                visibility 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.screen.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    z-index: 2;
+}
+
+/* ==========================================================================
+   PANTALLA 1: PORTADA & SLIDESHOW DE FOTOS
+   ========================================================================== */
+#screen-cover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Slideshow de imágenes de fondo (Crossfade) */
+.bg-slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transform: scale(1);
+    transition: opacity 1.4s ease-in-out, transform 8s ease-out;
+    will-change: opacity, transform;
+}
+
+.bg-slide.active-slide {
+    opacity: 1;
+    transform: scale(1.04);
+}
+
+/* Capa de sombra / Vignette sobre el fondo */
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(8, 8, 13, 0.35) 0%, rgba(8, 8, 13, 0.82) 100%),
+                linear-gradient(to bottom, rgba(8, 8, 13, 0.5) 0%, rgba(8, 8, 13, 0.65) 100%);
+    backdrop-filter: blur(2px);
+    z-index: 1;
+}
+
+/* Tarjeta Glassmorphic central */
+.cover-content {
+    position: relative;
+    z-index: 2;
+    padding: 1.5rem;
+    max-width: 680px;
+    width: 90%;
+    text-align: center;
+    animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 28px;
+    padding: 3.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.glass-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent,
+        rgba(255, 255, 255, 0.05),
+        transparent
+    );
+    transform: rotate(30deg);
+    pointer-events: none;
+}
+
+/* Insignia / Badge */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    background: rgba(255, 82, 119, 0.15);
+    border: 1px solid rgba(255, 82, 119, 0.35);
+    color: #ff9ebb;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.badge-icon {
+    width: 16px;
+    height: 16px;
+    fill: var(--color-accent-pink);
+    animation: heartbeat 1.8s infinite ease-in-out;
+}
+
+/* Título y Subtítulo de la Portada */
+.title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    background: linear-gradient(135deg, #ffffff 30%, var(--color-gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
+    font-weight: 400;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    max-width: 500px;
+}
+
+/* Botón Principal */
+.actions {
+    margin-top: 1.2rem;
+}
+
+.btn-primary {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.1rem 2.6rem;
+    border-radius: 50px;
+    border: none;
+    outline: none;
+    font-family: var(--font-body);
+    font-size: 1.08rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--color-accent-pink), var(--color-accent-orange));
+    box-shadow: 0 10px 30px rgba(255, 82, 119, 0.45);
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 16px 40px rgba(255, 82, 119, 0.6);
+}
+
+.btn-primary:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+.btn-icon {
+    width: 22px;
+    height: 22px;
+    transition: transform 0.3s ease;
+}
+
+.btn-primary:hover .btn-icon {
+    transform: translateX(4px);
+}
+
+/* Indicador de fotos en la esquina inferior */
+.slideshow-indicator {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 1rem;
+    background: rgba(14, 16, 26, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 30px;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-accent-pink);
+    box-shadow: 0 0 10px var(--color-accent-pink);
+    animation: pulse 2s infinite;
+}
+
+/* ==========================================================================
+   PANTALLA 2: REPRODUCTOR DE VÍDEO
+   ========================================================================== */
+#screen-video {
+    display: flex;
+    flex-direction: column;
+    background: radial-gradient(circle at top center, #161828 0%, var(--color-bg-dark) 80%);
+    padding: 1.5rem;
+}
+
+.video-bg-ambient {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60vw;
+    height: 40vh;
+    background: radial-gradient(circle, rgba(255, 82, 119, 0.25) 0%, rgba(247, 201, 120, 0.15) 50%, transparent 70%);
+    filter: blur(90px);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.video-header {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 1.5rem auto;
+    padding: 0.5rem 0;
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.75rem 1.4rem;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(12px);
+    color: var(--color-text-bright);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-back svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s ease;
+}
+
+.btn-back:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.35);
+    transform: translateX(-3px);
+}
+
+.btn-back:hover svg {
+    transform: translateX(-3px);
+}
+
+.video-header-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--color-text-bright);
+    opacity: 0.9;
+}
+
+/* Contenedor del Vídeo */
+.video-container-wrapper {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.video-card {
+    width: 100%;
+    max-height: 80vh;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #000000;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.video-card:hover {
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.9), 0 0 0 1px rgba(255, 82, 119, 0.3);
+}
+
+video#main-video {
+    width: 100%;
+    height: 100%;
+    max-height: 78vh;
+    object-fit: contain;
+    outline: none;
+    border-radius: 20px;
+    background: #000;
+}
+
+/* Customización del reproductor HTML5 */
+video::-webkit-media-controls-panel {
+    background-image: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0)) !important;
+}
+
+/* ==========================================================================
+   ANIMACIONES
+   ========================================================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.95); opacity: 0.7; }
+    50% { transform: scale(1.3); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+/* ==========================================================================
+   ADAPTACIÓN RESPONSIVA (MÓVILES Y TABLETS)
+   ========================================================================== */
+@media (max-width: 640px) {
+    .glass-card {
+        padding: 2.2rem 1.5rem;
+        border-radius: 22px;
+    }
+
+    .btn-primary {
+        width: 100%;
+        padding: 1rem 1.8rem;
+    }
+
+    .slideshow-indicator {
+        bottom: 1rem;
+        right: 50%;
+        transform: translateX(50%);
+        white-space: nowrap;
+    }
+
+    .video-header-title {
+        display: none;
+    }
+
+    #screen-video {
+        padding: 1rem;
+    }
+}

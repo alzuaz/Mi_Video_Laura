@@ -1,0 +1,37 @@
+# ==========================================================================
+# ARCHIVOS IGNORADOS EN EL REPOSITORIO GIT
+# ==========================================================================
+
+# 1. ARCHIVOS MULTIMEDIA PESADOS
+# El vídeo mi_video.MOV ocupa ~513 MB. GitHub prohíbe subir archivos > 100 MB.
+mi_video.MOV
+*.MOV
+*.mov
+*.mp4
+*.avi
+*.mkv
+*.webm
+
+# 2. ARCHIVOS DEL SISTEMA OPERATIVO (Windows / macOS)
+Thumbs.db
+desktop.ini
+ehthumbs.db
+.DS_Store
+.DS_Store?
+*_buildlog.txt
+
+# 3. ARCHIVOS DE CONFIGURACIÓN DE EDITORES E IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# 4. ARCHIVOS DE REGISTRO (LOGS), TEMPORALES Y CACHÉ
+*.log
+.env
+.env.local
+node_modules/
+dist/
+build/

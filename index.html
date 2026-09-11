@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestros Momentos Especiales</title>
+    <meta name="description" content="Portada interactiva con fotos de fondo y reproductor de vídeo en alta calidad.">
+    
+    <!-- Tipografías elegantes de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Estilos de la aplicación -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ========================================================= -->
+    <!-- PANTALLA 1: PORTADA CON SLIDESHOW DE FOTOS DE FONDO       -->
+    <!-- ========================================================= -->
+    <section id="screen-cover" class="screen active" aria-label="Portada de recuerdos">
+        <!-- Dos capas para lograr una transición de fundido suave (crossfade) -->
+        <div id="bg-slide-1" class="bg-slide active-slide"></div>
+        <div id="bg-slide-2" class="bg-slide"></div>
+        
+        <!-- Capa de sombra para mejorar la lectura del texto -->
+        <div class="overlay"></div>
+
+        <!-- Contenido principal de la Portada -->
+        <div class="cover-content">
+            <div class="glass-card">
+                <div class="badge">
+                    <svg viewBox="0 0 24 24" class="badge-icon" fill="currentColor">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <p>Échame un poco de menos, porfa</p>
+                </div>
+                
+                <!-- ================================================================= -->
+                <!-- EDITA AQUÍ EL TÍTULO Y SUBTÍTULO DE LA PORTADA                   -->
+                <!-- ================================================================= -->
+                <h1 id="cover-title" class="title">Ahora toca mi vídeo</h1>
+                <p id="cover-subtitle" class="subtitle">Espero que te guste. Ya lo sabes, te amo con todo mi corazón.</p>
+                <!-- ================================================================= -->
+
+                <div class="actions">
+                    <button id="btn-to-video" class="btn-primary" aria-label="Ir al vídeo">
+                        <span>Ver Vídeo</span>
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="slideshow-indicator">
+            <span class="pulse-dot"></span>
+            <span id="photo-counter">Cargando fotos...</span>
+        </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- PANTALLA 2: SECCIÓN DEL VÍDEO                             -->
+    <!-- ========================================================= -->
+    <section id="screen-video" class="screen" aria-label="Reproductor de vídeo">
+        <div class="video-bg-ambient"></div>
+
+        <header class="video-header">
+            <button id="btn-to-cover" class="btn-back" aria-label="Volver a la portada">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                <span>Volver a la Portada</span>
+            </button>
+            <div class="video-header-title">Mi Vídeo Especial</div>
+        </header>
+
+        <main class="video-container-wrapper">
+            <div class="video-card">
+                <video id="main-video" controls preload="metadata" poster="nosotros.jpg">
+                    <source src="mi_video.MOV" type="video/mp4">
+                    <source src="mi_video.MOV" type="video/quicktime">
+                    Tu navegador no soporta la reproducción directa de este vídeo en formato MOV.
+                </video>
+            </div>
+        </main>
+    </section>
+
+    <!-- Lógica JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
